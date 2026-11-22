@@ -142,7 +142,7 @@
   "shadowrocketUrls": {
     "conf": "https://raw.githubusercontent.com/nhattinh486-art/Module_IOS/refs/heads/main/Nh%E1%BA%ADt_T%C3%ACnh.conf",
     "sgmodule": "https://raw.githubusercontent.com/nhattinh486-art/Module_IOS/refs/heads/main/Nh%E1%BA%ADt_T%C3%ACnh.sgmodule",
-    "dns": "https://raw.githubusercontent.com/nhattinh486-art/Module_IOS/refs/heads/main/DNS-Nh%E1%BA%ADt_T%C3%ACnh.mobileconfig"
+    "dns": "https://nhattinh486-art.github.io/uploads/url-dns-1795366860905-DNS-Nh_t_T_nh.mobileconfig"
   },
   "adminCodes": [
     "NHATTINH2026",
@@ -155,13 +155,19 @@
       "name": "Bộ URL #1",
       "conf": "https://raw.githubusercontent.com/nhattinh486-art/Module_IOS/refs/heads/main/Nh%E1%BA%ADt_T%C3%ACnh.conf",
       "sgmodule": "https://raw.githubusercontent.com/nhattinh486-art/Module_IOS/refs/heads/main/Nh%E1%BA%ADt_T%C3%ACnh.sgmodule",
-      "dns": "https://raw.githubusercontent.com/nhattinh486-art/Module_IOS/refs/heads/main/DNS-Nh%E1%BA%ADt_T%C3%ACnh.mobileconfig"
+      "dns": "https://nhattinh486-art.github.io/uploads/url-dns-1795366860905-DNS-Nh_t_T_nh.mobileconfig"
     },
     {
       "name": "Bộ URL #2",
       "conf": "",
       "sgmodule": "https://raw.githubusercontent.com/nhattinh486-art/locket111/refs/heads/main/shadowrocket/locket_nhattinh.module",
-      "dns": "http://raw.githubusercontent.com/nhattinh486-art/locket111/refs/heads/main/LocketGold_DOH_NhatTinh.mobileconfig"
+      "dns": "https://nhattinh486-art.github.io/uploads/url-dns-1795366837341-LocketGold_DOH_NhatTinh.mobileconfig"
+    },
+    {
+      "name": "Bộ URL #3",
+      "conf": "https://raw.githubusercontent.com/nhattinh486-art/locket222/refs/heads/main/Locket_Gold_Vip.conf",
+      "sgmodule": "https://raw.githubusercontent.com/nhattinh486-art/locket222/refs/heads/main/Locket_Gold_Vip.sgmodule",
+      "dns": "https://nhattinh486-art.github.io/uploads/url-dns-1795366805345-DNS_ch_n.mobileconfig"
     }
   ]
 }
