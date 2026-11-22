@@ -126,7 +126,17 @@
     {
       "name": "Máy Chủ 01",
       "url": "",
-      "fileUrl": "./uploads/dns-1795269150628-NhatTinh-LocketGold2.mobileconfig"
+      "fileUrl": "./uploads/dns-1795365439606-test_1.mobileconfig"
+    },
+    {
+      "name": "Máy chủ 2 ",
+      "url": "",
+      "fileUrl": "./uploads/dns-1795365443597-test_2.mobileconfig"
+    },
+    {
+      "name": "Máy Chủ Mới",
+      "url": "",
+      "fileUrl": "./uploads/dns-1795365463037-test_3.mobileconfig"
     }
   ],
   "shadowrocketUrls": {
