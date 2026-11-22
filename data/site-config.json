@@ -122,23 +122,7 @@
       "fullWidth": true
     }
   ],
-  "dnsServers": [
-    {
-      "name": "Máy Chủ 01",
-      "url": "chết",
-      "fileUrl": "./uploads/dns-1795365439606-test_1.mobileconfig"
-    },
-    {
-      "name": "Máy chủ 2 ",
-      "url": "3p",
-      "fileUrl": "./uploads/dns-1795365443597-test_2.mobileconfig"
-    },
-    {
-      "name": "Máy Chủ Mới",
-      "url": "",
-      "fileUrl": "./uploads/dns-1795365463037-test_3.mobileconfig"
-    }
-  ],
+  "dnsServers": [],
   "shadowrocketUrls": {
     "conf": "https://raw.githubusercontent.com/nhattinh486-art/Module_IOS/refs/heads/main/Nh%E1%BA%ADt_T%C3%ACnh.conf",
     "sgmodule": "https://raw.githubusercontent.com/nhattinh486-art/Module_IOS/refs/heads/main/Nh%E1%BA%ADt_T%C3%ACnh.sgmodule",
