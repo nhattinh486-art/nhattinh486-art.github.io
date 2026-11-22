@@ -154,6 +154,20 @@ function renderProjectVideo(videoUrl) {
       </div>
     `;
   }
+  const gdMatch = url.match(/drive\.google\.com\/(?:file\/d\/|open\?id=)([a-zA-Z0-9_-]+)/);
+  if (gdMatch) {
+    return `
+      <div class="w-full overflow-hidden rounded-xl border border-[hsl(var(--border))] aspect-video bg-black">
+        <iframe
+          src="https://drive.google.com/file/d/${gdMatch[1]}/preview"
+          title="Video Demo Dự Án"
+          class="w-full h-full"
+          allow="autoplay"
+          allowfullscreen
+        ></iframe>
+      </div>
+    `;
+  }
   return `
     <div class="w-full overflow-hidden rounded-xl border border-[hsl(var(--border))] bg-black">
       <video src="${escHtml(url)}" controls playsinline preload="metadata" class="w-full max-h-[420px] mx-auto"></video>
