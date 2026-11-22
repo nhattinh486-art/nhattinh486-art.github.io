@@ -125,12 +125,12 @@
   "dnsServers": [
     {
       "name": "Máy Chủ 01",
-      "url": "",
+      "url": "chết",
       "fileUrl": "./uploads/dns-1795365439606-test_1.mobileconfig"
     },
     {
       "name": "Máy chủ 2 ",
-      "url": "",
+      "url": "3p",
       "fileUrl": "./uploads/dns-1795365443597-test_2.mobileconfig"
     },
     {
