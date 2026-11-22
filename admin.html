@@ -327,15 +327,15 @@
         <!-- Tab 5: Shadowrocket URLs & Admin Codes -->
         <section id="tab-urls" class="tab-panel hidden flex-col gap-3">
           <div class="flex items-center justify-between">
-            <h2 class="text-sm font-bold text-sky-400">Quản lý URL (Shadowrocket / Module / DNS)</h2>
+            <h2 class="text-sm font-bold text-sky-400">Quản lý Bộ URL (.conf • .sgmodule • DNS)</h2>
             <button type="button" id="btn-add-url-item" class="rounded-xl bg-sky-500/15 border border-sky-400/50 px-3 py-1.5 text-xs font-bold text-sky-400 hover:bg-sky-500/25 transition-colors">
-              + Thêm URL
+              + Thêm Bộ
             </button>
           </div>
           <div class="profile-card p-3 flex items-center justify-between gap-2">
-            <label for="url-count-input" class="text-xs font-semibold text-[hsl(var(--foreground))]">Số lượng URL:</label>
+            <label for="url-count-input" class="text-xs font-semibold text-[hsl(var(--foreground))]">Số lượng bộ URL:</label>
             <div class="flex items-center gap-2">
-              <input id="url-count-input" type="number" min="1" max="30" class="inp !w-20 text-center" value="3" />
+              <input id="url-count-input" type="number" min="1" max="30" class="inp !w-20 text-center" value="1" />
               <button type="button" id="btn-apply-url-count" class="rounded-xl bg-sky-500 px-3 py-2 text-xs font-bold text-white hover:bg-sky-400 transition-colors shrink-0">
                 Áp dụng
               </button>
@@ -769,9 +769,10 @@
           const pIdx = parseInt(targetInputId, 10);
           config.myProjects[pIdx].videoUrl = `./${repoPath}`;
           renderMyProjects();
-        } else if (folderPrefix === 'url-item') {
-          const uIdx = parseInt(targetInputId, 10);
-          config.urlItems[uIdx].url = `${SITE_ORIGIN}/${repoPath}`;
+        } else if (folderPrefix === 'url-conf' || folderPrefix === 'url-sgmodule' || folderPrefix === 'url-dns') {
+          const gIdx = parseInt(targetInputId, 10);
+          const field = folderPrefix.replace('url-', '');
+          config.urlGroups[gIdx][field] = `${SITE_ORIGIN}/${repoPath}`;
           renderUrlItems();
         } else if (folderPrefix === 'music') {
           const mIdx = parseInt(targetInputId, 10);
@@ -1030,12 +1031,15 @@
     }
 
     function ensureUrlItems() {
-      if (!Array.isArray(config.urlItems) || !config.urlItems.length) {
+      if (!Array.isArray(config.urlGroups) || !config.urlGroups.length) {
         const s = config.shadowrocketUrls || {};
-        config.urlItems = [
-          { label: '1. Link .conf (Shadowrocket)', icon: 'ri-file-code-line', url: s.conf || '' },
-          { label: '2. Link .sgmodule (Module)', icon: 'ri-puzzle-line', url: s.sgmodule || '' },
-          { label: '3. Link DNS (DoH)', icon: 'ri-global-line', url: s.dns || '' }
+        config.urlGroups = [
+          {
+            name: 'Bộ URL #1',
+            conf: s.conf || '',
+            sgmodule: s.sgmodule || '',
+            dns: s.dns || ''
+          }
         ];
       }
     }
@@ -1043,21 +1047,44 @@
     function renderUrlItems() {
       ensureUrlItems();
       const countInp = document.getElementById('url-count-input');
-      if (countInp) countInp.value = config.urlItems.length;
+      if (countInp) countInp.value = config.urlGroups.length;
       const box = document.getElementById('urls-list');
-      box.innerHTML = config.urlItems.map((u, i) => `
-        <div class="profile-card p-3.5 flex flex-col gap-2">
+      box.innerHTML = config.urlGroups.map((g, i) => `
+        <div class="profile-card p-3.5 flex flex-col gap-2.5">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-sky-400">URL #${i + 1}</span>
-            <button type="button" onclick="config.urlItems.splice(${i},1);renderUrlItems()" class="text-xs text-rose-400 hover:underline">Xóa</button>
+            <span class="text-xs font-bold text-sky-400">Bộ #${i + 1}</span>
+            <button type="button" onclick="config.urlGroups.splice(${i},1);renderUrlItems()" class="text-xs text-rose-400 hover:underline">Xóa</button>
           </div>
-          <input class="inp" placeholder="Tên / Nhãn (VD: 1. Link .conf)" value="${(u.label || '').replace(/"/g, '&quot;')}" oninput="config.urlItems[${i}].label=this.value" />
-          <div class="flex gap-2 items-center">
-            <input class="inp flex-1" placeholder="Đường link URL (https://...)" value="${(u.url || '').replace(/"/g, '&quot;')}" oninput="config.urlItems[${i}].url=this.value" />
-            <label class="rounded-xl bg-sky-500/15 border border-sky-400/40 px-3 py-2 text-xs font-bold text-sky-400 cursor-pointer shrink-0 hover:bg-sky-500/25">
-              Up File
-              <input type="file" accept=".conf,.sgmodule,.mobileconfig,.txt,.json" class="hidden" onchange="uploadFileToRepo(this,'${i}','url-item')" />
-            </label>
+          <input class="inp" placeholder="Tên bộ (VD: Bộ URL #${i + 1})" value="${(g.name || '').replace(/"/g, '&quot;')}" oninput="config.urlGroups[${i}].name=this.value" />
+          <div class="flex flex-col gap-1">
+            <label class="text-[11px] font-semibold text-[hsl(var(--muted-foreground))]">1. Link .conf</label>
+            <div class="flex gap-2 items-center">
+              <input class="inp flex-1" placeholder="https://... (.conf)" value="${(g.conf || '').replace(/"/g, '&quot;')}" oninput="config.urlGroups[${i}].conf=this.value" />
+              <label class="rounded-xl bg-sky-500/15 border border-sky-400/40 px-3 py-2 text-xs font-bold text-sky-400 cursor-pointer shrink-0 hover:bg-sky-500/25">
+                Up File
+                <input type="file" accept=".conf,.txt" class="hidden" onchange="uploadFileToRepo(this,'${i}','url-conf')" />
+              </label>
+            </div>
+          </div>
+          <div class="flex flex-col gap-1">
+            <label class="text-[11px] font-semibold text-[hsl(var(--muted-foreground))]">2. Link .sgmodule</label>
+            <div class="flex gap-2 items-center">
+              <input class="inp flex-1" placeholder="https://... (.sgmodule)" value="${(g.sgmodule || '').replace(/"/g, '&quot;')}" oninput="config.urlGroups[${i}].sgmodule=this.value" />
+              <label class="rounded-xl bg-sky-500/15 border border-sky-400/40 px-3 py-2 text-xs font-bold text-sky-400 cursor-pointer shrink-0 hover:bg-sky-500/25">
+                Up File
+                <input type="file" accept=".sgmodule,.txt" class="hidden" onchange="uploadFileToRepo(this,'${i}','url-sgmodule')" />
+              </label>
+            </div>
+          </div>
+          <div class="flex flex-col gap-1">
+            <label class="text-[11px] font-semibold text-[hsl(var(--muted-foreground))]">3. Link DNS</label>
+            <div class="flex gap-2 items-center">
+              <input class="inp flex-1" placeholder="https://... (DNS / mobileconfig)" value="${(g.dns || '').replace(/"/g, '&quot;')}" oninput="config.urlGroups[${i}].dns=this.value" />
+              <label class="rounded-xl bg-sky-500/15 border border-sky-400/40 px-3 py-2 text-xs font-bold text-sky-400 cursor-pointer shrink-0 hover:bg-sky-500/25">
+                Up File
+                <input type="file" accept=".mobileconfig,.conf,.txt" class="hidden" onchange="uploadFileToRepo(this,'${i}','url-dns')" />
+              </label>
+            </div>
           </div>
         </div>
       `).join('');
@@ -1084,9 +1111,9 @@
       ].filter(Boolean);
       ensureUrlItems();
       config.shadowrocketUrls = {
-        conf: (config.urlItems[0] && config.urlItems[0].url) || '',
-        sgmodule: (config.urlItems[1] && config.urlItems[1].url) || '',
-        dns: (config.urlItems[2] && config.urlItems[2].url) || ''
+        conf: (config.urlGroups[0] && config.urlGroups[0].conf) || '',
+        sgmodule: (config.urlGroups[0] && config.urlGroups[0].sgmodule) || '',
+        dns: (config.urlGroups[0] && config.urlGroups[0].dns) || ''
       };
       config.adminCodes = document.getElementById('admin-codes').value
         .split(',')
@@ -1130,22 +1157,22 @@
     });
     document.getElementById('btn-add-url-item').addEventListener('click', () => {
       ensureUrlItems();
-      const idx = config.urlItems.length + 1;
-      config.urlItems.push({ label: `${idx}. Link mới`, icon: 'ri-links-line', url: '' });
+      const idx = config.urlGroups.length + 1;
+      config.urlGroups.push({ name: `Bộ URL #${idx}`, conf: '', sgmodule: '', dns: '' });
       renderUrlItems();
     });
     document.getElementById('btn-apply-url-count').addEventListener('click', () => {
       ensureUrlItems();
       const target = Math.max(1, Math.min(30, parseInt(document.getElementById('url-count-input').value, 10) || 1));
-      while (config.urlItems.length < target) {
-        const idx = config.urlItems.length + 1;
-        config.urlItems.push({ label: `${idx}. Link mới`, icon: 'ri-links-line', url: '' });
+      while (config.urlGroups.length < target) {
+        const idx = config.urlGroups.length + 1;
+        config.urlGroups.push({ name: `Bộ URL #${idx}`, conf: '', sgmodule: '', dns: '' });
       }
-      if (config.urlItems.length > target) {
-        config.urlItems = config.urlItems.slice(0, target);
+      if (config.urlGroups.length > target) {
+        config.urlGroups = config.urlGroups.slice(0, target);
       }
       renderUrlItems();
-      showAdminToast(`Đã chỉnh số lượng thành ${target} URL!`, 'success');
+      showAdminToast(`Đã chỉnh số lượng thành ${target} bộ URL!`, 'success');
     });
 
     document.getElementById('btn-preview-local').addEventListener('click', () => {
