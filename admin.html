@@ -626,13 +626,11 @@
       return btoa(unescape(encodeURIComponent(str)));
     }
 
-    function fileToBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result.split(',')[1]);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
+    async function fileToBase64(file) {
+      const buf = await file.arrayBuffer();
+      const b64 = uint8ToBase64(new Uint8Array(buf));
+      if (!b64) throw new Error('Không đọc được dữ liệu file (file rỗng hoặc quá lớn).');
+      return b64;
     }
 
     function uint8ToBase64(u8) {
@@ -707,8 +705,13 @@
         showAdminToast('Vui lòng nhập GitHub Token trước khi up file!', 'error');
         return;
       }
+      if (file.size > 24 * 1024 * 1024) {
+        showAdminToast('File nặng hơn 24MB! GitHub chỉ cho up trực tiếp file ≤ 24MB (video nặng hơn hãy up lên YouTube rồi dán link).', 'error');
+        setLog('⚠️ File vượt quá 24MB (giới hạn GitHub API). Hãy nén nhẹ hơn hoặc dán link YouTube!', '#fbbf24');
+        return;
+      }
       try {
-        setLog(`⏳ Đang tải file "${file.name}" lên GitHub...`);
+        setLog(`⏳ Đang tải file "${file.name}" (${(file.size / (1024 * 1024)).toFixed(1)} MB) lên GitHub...`);
         const b64 = await fileToBase64(file);
         const cleanName = Date.now() + '-' + file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
         const repoPath = `uploads/${folderPrefix}-${cleanName}`;
