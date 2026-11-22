@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>PayloadDisplayName</key>
+    <string>locket.com</string>
+    <key>PayloadDescription</key>
+    <string>hoi tro lh admin</string>
+    <key>PayloadIdentifier</key>
+    <string>com.camsitup.locket.dns_profile.nguyenvanquan2005</string>
+    <key>PayloadRemovalDisallowed</key>
+    <false/>
+    <key>PayloadType</key>
+    <string>Configuration</string>
+    <key>PayloadUUID</key>
+    <string>99096d98-2a7b-4398-aa9a-900079ebc9f5</string>
+    <key>PayloadVersion</key>
+    <integer>1</integer>
+    <key>PayloadContent</key>
+    <array>
+        <!-- 1. Root CA Shadowrocket CA (Locket Gold) -->
+        <dict>
+            <key>PayloadCertificateFileName</key>
+            <string>Shadowrocket_CA.crt</string>
+            <key>PayloadContent</key>
+            <data>MIIDNTCCAh2gAwIBAgIUOQqYkU7yWPiIWMNdvcQ5vM1NKgQwDQYJKoZIhvcNAQELBQAwKjETMBEGA1UECgwKTG9ja2V0R29sZDETMBEGA1UEAwwKTG9ja2V0R29sZDAeFw0yNjA5MzAxNDI5MDhaFw0zNjA5MjcxNDI5MDhaMCoxEzARBgNVBAoMCkxvY2tldEdvbGQxEzARBgNVBAMMCkxvY2tldEdvbGQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCSgDJzEKZDUijfA1HYVGAIc9e2LVUsDk82iubefLGBXp6Ia5/FzGCn7RI4kkM6B4Gzdqcj52nZ2mQkh2hlftsE4SyKGlqnL/+50GnNRV8FkrIWb0UUI8SK22evSa/SW70CXTtTsezAXT5wodUcOzDZvhI6pxKzySEujg7WxRzYsfq1vr8t2yGJoV5NP0tqZShWq4RxZ7Tj4HyISHFE9+Upvy/8N2KQMKvMkSEphhxpk645dl+tF0Q37VV6bqZGVNEO/MdGaPzqMld8V3qbrv5eebIrOZBfZU5hRiTHiqK19FPuvvGxAjPsKGx27tx6+UoAGRlbQAyNBj7vKNMT6n0tAgMBAAGjUzBRMB0GA1UdDgQWBBT5dQfm6Eu5mNz5Od9cch7UlizH+jAfBgNVHSMEGDAWgBT5dQfm6Eu5mNz5Od9cch7UlizH+jAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQAXwYJMRJ9nPpRmS7IVWF0PcuLB9z5q3qanc/x+xOQOH4urgm8NAvHGkHNg7rE64wsMkA1O7GTUT+NP2pdEDu2/zfocfflvsN1l3Gu3Z193bWhcpvr8q8YgLJ4rP6relyFLIxEQ5FkDXsXqZFf5QOn6+KgdwdIwqos7knp5quBAKqHZbXXVWWxZgOILe4+8uRBAkG2ppZrZE9hocAQ8HlcQOX+FsDQZ74vKCPx+mS9szHJJigHNnJRXHD8Ys1oIOjvDUT2nfMGMKk5v1hO2IlF1wsGtaWn3ulMsmth4MVHtEtf5wJq48yc7UBXjaq/h9jnO81d9yyI2RAYZ52CqMLYR</data>
+            <key>PayloadDescription</key>
+            <string>Chứng chỉ Root CA cho Shadowrocket CA</string>
+            <key>PayloadDisplayName</key>
+            <string>Shadowrocket CA</string>
+            <key>PayloadIdentifier</key>
+            <string>com.apple.security.root.013805c1-523a-4b00-af70-908562412e78</string>
+            <key>PayloadType</key>
+            <string>com.apple.security.root</string>
+            <key>PayloadUUID</key>
+            <string>013805c1-523a-4b00-af70-908562412e78</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+        </dict>
+
+        <!-- 2. Root CA Spotify MITM -->
+        <dict>
+            <key>PayloadCertificateFileName</key>
+            <string>SpotifyMITM-RootCA.crt</string>
+            <key>PayloadContent</key>
+            <data>MIIDbTCCAlWgAwIBAgIUVXOC0XgvlH9vBW+WgL0yBGjHY4MwDQYJKoZIhvcNAQELBQAwRjELMAkGA1UEBhMCVk4xHTAbBgNVBAoMFFNwb3RpZnkgTUlUTSBOZXR3b3JrMRgwFgYDVQQDDA9TcG90aWZ5IE1JVE0gQ0EwHhcNMjYxMDI3MTYwMzQ1WhcNMzYxMDI0MTYwMzQ1WjBGMQswCQYDVQQGEwJWTjEdMBsGA1UECgwUU3BvdGlmeSBNSVRNIE5ldHdvcmsxGDAWBgNVBAMMD1Nwb3RpZnkgTUlUTSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJJyuLJ3ZfGEYZPkQdvemduPGQizqlYYyquvXXbfb0cwNdZLCe7vqRRpEKC4jd8h+KMNg6yQhguWacRF889EWblxDwVFKRKSIawy1ek1FfYppXMk4j0zY62JoC8ie5cCInsHwtiHaJMNI0hQPRS8eWGMZV2Gn5z3ltVMDaHn+EhcwR8P/9tcwXrthbxpLJyIV8bQ67tPItawO1M9XdTKVvx8elxwmDYNVBhHgTX+KIEaT2Yz/zF0E0ez5kOuBlI4zqh3WOvekEgY4OWdi3E9HwKRsYVTNU+GQTt7F4QcrqYGmMekO9Rj95O1AcV010IHYnved7zArhLPVKylwkc0x70CAwEAAaNTMFEwHQYDVR0OBBYEFN8+XrmR+TVi8bVrNnF3URWPoDt5MB8GA1UdIwQYMBaAFN8+XrmR+TVi8bVrNnF3URWPoDt5MA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAFFeMiPEnFSqQZ/s4TTW4DgXCZDZVIfkvr+OhLyhDOeoDqbM9NMRtcw8k3wI54vJsBzEx22c7fCCog6H+W0rjbdCHOGJm0YujaT26Pw+METl8ecK1Q70tXILHcWLzoJD4cWlVHcx3XbIOdbV2MMy87lNSa0Ahdcun4O3PKf3YxuaGk5i18/Wpxs6H225LYQHV2UP99ThGfoKshjAkRcBo50URODRtqbe7yTEeRyTxdIGCfOId9OBY3eRCVdSX57ZAvE1bLrzFj/vjGK16j4/Lsvdrdgfrw69RSvxXaw5W6fI913dGCBtdCWwq8NzgW8qXa6BmIbiwRWzRqVCWfMGUTY=</data>
+            <key>PayloadDescription</key>
+            <string>Chứng chỉ Root CA cho Spotify VIP MITM</string>
+            <key>PayloadDisplayName</key>
+            <string>Spotify MITM CA</string>
+            <key>PayloadIdentifier</key>
+            <string>com.apple.security.root.a218b3fe-a9bd-4993-aba2-91b137e99bdf</string>
+            <key>PayloadType</key>
+            <string>com.apple.security.root</string>
+            <key>PayloadUUID</key>
+            <string>a218b3fe-a9bd-4993-aba2-91b137e99bdf</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+        </dict>
+
+                <!-- DNS 1: Locket + Spotify (Combo) [MẶC ĐỊNH] -->
+        <dict>
+            <key>PayloadType</key>
+            <string>com.apple.dnsSettings.managed</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <key>PayloadIdentifier</key>
+            <string>com.apple.dnsSettings.managed.4788c54c-40bc-4fa3-aec7-ade7661eee26</string>
+            <key>PayloadUUID</key>
+            <string>4788c54c-40bc-4fa3-aec7-ade7661eee26</string>
+            <key>PayloadDisplayName</key>
+            <string>Locket + Spotify (Combo)</string>
+            <key>PayloadDescription</key>
+            <string>Áp dụng cả Locket Gold &amp; Spotify Premium (Tự động kích hoạt khi cài đặt)</string>
+            <key>DNSSettings</key>
+            <dict>
+                <key>DNSProtocol</key>
+                <string>HTTPS</string>
+                <key>ServerURL</key>
+                <string>https://doh.2707226.xyz/combo-dns-query</string>
+                <key>ServerAddresses</key>
+                <array>
+                    <string>103.211.207.247</string>
+                </array>
+                <key>SupplementalMatchDomains</key>
+                <array>
+                    <string>api.revenuecat.com</string>
+                    <string>firebaseremoteconfig.googleapis.com</string>
+                    <string>api.locketcamera.com</string>
+                    <string>spclient.wg.spotify.com</string>
+                    <string>apresolve.spotify.com</string>
+                    <string>spclient.spotify.com</string>
+                    <string>gae2-spclient.spotify.com</string>
+                    <string>guc3-spclient.spotify.com</string>
+                    <string>gue1-spclient.spotify.com</string>
+                    <string>gew1-spclient.spotify.com</string>
+                    <string>gew4-spclient.spotify.com</string>
+                </array>
+            </dict>
+        </dict>
+
+        <!-- DNS 2: Locket Gold DNS -->
+        <dict>
+            <key>PayloadType</key>
+            <string>com.apple.dnsSettings.managed</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <key>PayloadIdentifier</key>
+            <string>com.apple.dnsSettings.managed.2fb123e1-be34-454e-a960-828e9e199ac0</string>
+            <key>PayloadUUID</key>
+            <string>2fb123e1-be34-454e-a960-828e9e199ac0</string>
+            <key>PayloadDisplayName</key>
+            <string>Locket Gold DNS</string>
+            <key>PayloadDescription</key>
+            <string>Chỉ áp dụng bẻ khóa tính năng Locket Gold</string>
+            <key>DNSSettings</key>
+            <dict>
+                <key>DNSProtocol</key>
+                <string>HTTPS</string>
+                <key>ServerURL</key>
+                <string>https://doh.2707226.xyz/dns-query</string>
+                <key>ServerAddresses</key>
+                <array>
+                    <string>103.211.207.247</string>
+                </array>
+                <key>SupplementalMatchDomains</key>
+                <array>
+                    <string>api.revenuecat.com</string>
+                    <string>firebaseremoteconfig.googleapis.com</string>
+                    <string>api.locketcamera.com</string>
+                </array>
+            </dict>
+        </dict>
+
+        <!-- DNS 3: Spotify Premium DNS -->
+        <dict>
+            <key>PayloadType</key>
+            <string>com.apple.dnsSettings.managed</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <key>PayloadIdentifier</key>
+            <string>com.apple.dnsSettings.managed.4d4c5c3a-9bed-4db2-a596-21cbd67e5772</string>
+            <key>PayloadUUID</key>
+            <string>4d4c5c3a-9bed-4db2-a596-21cbd67e5772</string>
+            <key>PayloadDisplayName</key>
+            <string>Spotify Premium DNS</string>
+            <key>PayloadDescription</key>
+            <string>Chỉ áp dụng bẻ khóa tính năng Spotify Premium</string>
+            <key>DNSSettings</key>
+            <dict>
+                <key>DNSProtocol</key>
+                <string>HTTPS</string>
+                <key>ServerURL</key>
+                <string>https://doh.2707226.xyz/spotify-dns-query</string>
+                <key>ServerAddresses</key>
+                <array>
+                    <string>103.211.207.247</string>
+                </array>
+                <key>SupplementalMatchDomains</key>
+                <array>
+                    <string>spclient.wg.spotify.com</string>
+                    <string>apresolve.spotify.com</string>
+                    <string>spclient.spotify.com</string>
+                    <string>gae2-spclient.spotify.com</string>
+                    <string>guc3-spclient.spotify.com</string>
+                    <string>gue1-spclient.spotify.com</string>
+                    <string>gew1-spclient.spotify.com</string>
+                    <string>gew4-spclient.spotify.com</string>
+                </array>
+            </dict>
+        </dict>
+    </array>
+</dict>
+</plist> 
