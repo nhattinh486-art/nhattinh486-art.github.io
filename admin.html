@@ -651,7 +651,64 @@
       return data.sha || null;
     }
 
+    async function githubPutLargeFile(path, base64Content, message, token) {
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      };
+      const refRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/git/ref/heads/main`, { headers });
+      if (!refRes.ok) throw new Error(`Lỗi đọc nhánh main (HTTP ${refRes.status})`);
+      const refData = await refRes.json();
+      const latestCommitSha = refData.object.sha;
+
+      const commitRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/git/commits/${latestCommitSha}`, { headers });
+      if (!commitRes.ok) throw new Error(`Lỗi đọc commit (HTTP ${commitRes.status})`);
+      const commitData = await commitRes.json();
+
+      const blobRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/git/blobs`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ content: base64Content, encoding: 'base64' })
+      });
+      if (!blobRes.ok) {
+        const err = await blobRes.json().catch(() => ({}));
+        throw new Error(err.message || `Lỗi tạo blob GitHub (HTTP ${blobRes.status})`);
+      }
+      const blobData = await blobRes.json();
+
+      const treeRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/git/trees`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          base_tree: commitData.tree.sha,
+          tree: [{ path, mode: '100644', type: 'blob', sha: blobData.sha }]
+        })
+      });
+      if (!treeRes.ok) throw new Error(`Lỗi tạo tree GitHub (HTTP ${treeRes.status})`);
+      const treeData = await treeRes.json();
+
+      const newCommitRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/git/commits`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ message, tree: treeData.sha, parents: [latestCommitSha] })
+      });
+      if (!newCommitRes.ok) throw new Error(`Lỗi tạo commit GitHub (HTTP ${newCommitRes.status})`);
+      const newCommitData = await newCommitRes.json();
+
+      const patchRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/git/refs/heads/main`, {
+        method: 'PATCH',
+        headers,
+        body: JSON.stringify({ sha: newCommitData.sha })
+      });
+      if (!patchRes.ok) throw new Error(`Lỗi cập nhật nhánh main (HTTP ${patchRes.status})`);
+      return newCommitData;
+    }
+
     async function githubPutFile(path, base64Content, message, token) {
+      if (base64Content.length > 10 * 1024 * 1024) {
+        return githubPutLargeFile(path, base64Content, message, token);
+      }
       const sha = await githubGetSha(path, token);
       const body = { message, content: base64Content, branch: 'main' };
       if (sha) body.sha = sha;
@@ -705,9 +762,9 @@
         showAdminToast('Vui lòng nhập GitHub Token trước khi up file!', 'error');
         return;
       }
-      if (file.size > 24 * 1024 * 1024) {
-        showAdminToast('File nặng hơn 24MB! GitHub chỉ cho up trực tiếp file ≤ 24MB (video nặng hơn hãy up lên YouTube rồi dán link).', 'error');
-        setLog('⚠️ File vượt quá 24MB (giới hạn GitHub API). Hãy nén nhẹ hơn hoặc dán link YouTube!', '#fbbf24');
+      if (file.size > 75 * 1024 * 1024) {
+        showAdminToast('File vượt quá 75MB (giới hạn GitHub Pages 100MB). Hãy nén nhẹ hơn hoặc dán link YouTube!', 'error');
+        setLog('⚠️ File vượt quá 75MB (giới hạn GitHub). Hãy nén dưới 75MB hoặc dán link YouTube!', '#fbbf24');
         return;
       }
       try {
