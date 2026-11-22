@@ -168,6 +168,12 @@
       "conf": "https://raw.githubusercontent.com/nhattinh486-art/locket222/refs/heads/main/Locket_Gold_Vip.conf",
       "sgmodule": "https://raw.githubusercontent.com/nhattinh486-art/locket222/refs/heads/main/Locket_Gold_Vip.sgmodule",
       "dns": "https://nhattinh486-art.github.io/uploads/url-dns-1795366805345-DNS_ch_n.mobileconfig"
+    },
+    {
+      "name": "Bộ URL #4",
+      "conf": "",
+      "sgmodule": "https://raw.githubusercontent.com/nhattinh486-art/locket-sgmodule/main/locket.sgmodule",
+      "dns": ""
     }
   ]
 }
