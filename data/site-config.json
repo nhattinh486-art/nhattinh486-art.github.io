@@ -149,5 +149,19 @@
     "LOCKETGOLD",
     "ADMIN"
   ],
-  "music": []
+  "music": [],
+  "urlGroups": [
+    {
+      "name": "Bộ URL #1",
+      "conf": "https://raw.githubusercontent.com/nhattinh486-art/Module_IOS/refs/heads/main/Nh%E1%BA%ADt_T%C3%ACnh.conf",
+      "sgmodule": "https://raw.githubusercontent.com/nhattinh486-art/Module_IOS/refs/heads/main/Nh%E1%BA%ADt_T%C3%ACnh.sgmodule",
+      "dns": "https://raw.githubusercontent.com/nhattinh486-art/Module_IOS/refs/heads/main/DNS-Nh%E1%BA%ADt_T%C3%ACnh.mobileconfig"
+    },
+    {
+      "name": "Bộ URL #2",
+      "conf": "",
+      "sgmodule": "https://raw.githubusercontent.com/nhattinh486-art/locket111/refs/heads/main/shadowrocket/locket_nhattinh.module",
+      "dns": "http://raw.githubusercontent.com/nhattinh486-art/locket111/refs/heads/main/LocketGold_DOH_NhatTinh.mobileconfig"
+    }
+  ]
 }
