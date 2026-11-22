@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>PayloadDescription</key>
+			<string>Cấu hình DNS qua HTTPS cho Locket Gold</string>
+			<key>PayloadDisplayName</key>
+			<string>Locket Gold DNS</string>
+			<key>PayloadIdentifier</key>
+			<string>com.apple.dnsSettings.managed.A9709C6F-9C18-4228-B0CB-A0D328DA3287</string>
+			<key>PayloadType</key>
+			<string>com.apple.dnsSettings.managed</string>
+			<key>PayloadUUID</key>
+			<string>A9709C6F-9C18-4228-B0CB-A0D328DA3287</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+			<key>DNSSettings</key>
+			<dict>
+				<key>DNSProtocol</key>
+				<string>HTTPS</string>
+				<key>ServerURL</key>
+				<string>https://apple.dns.nextdns.io/a2dd89</string>
+			</dict>
+		</dict>
+	</array>
+	<key>PayloadDescription</key>
+	<string>Hồ sơ cấu hình VIP chặn thu hồi Locket Gold vĩnh viễn. @nhattinh2005-maker</string>
+	<key>PayloadDisplayName</key>
+	<string>Locket Gold 💛</string>
+	<key>PayloadIdentifier</key>
+	<string>nhattinh2005.profile.custom</string>
+	<key>PayloadOrganization</key>
+	<string>nhattinh2005-maker</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>1A2B3C4D-5E6F-7A8B-9C0D-1E2F3A4B5C6D</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>
