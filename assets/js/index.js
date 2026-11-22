@@ -697,18 +697,51 @@
     linkInput.addEventListener('input', validateInputs);
     codeInput.addEventListener('input', validateInputs);
 
-    downloadBtn.addEventListener('click', () => {
+    function extractLocketName(rawLink) {
+      try {
+        const u = new URL(rawLink.trim());
+        const parts = u.pathname.split('/').filter(Boolean);
+        const last = parts.length ? parts[parts.length - 1] : '';
+        const clean = decodeURIComponent(last).replace(/[^a-zA-Z0-9._-]/g, '');
+        if (clean) return clean;
+      } catch (_) {}
+      const fallback = rawLink.trim().split('/').filter(Boolean).pop() || '';
+      return fallback.split('?')[0].replace(/[^a-zA-Z0-9._-]/g, '') || 'User';
+    }
+
+    downloadBtn.addEventListener('click', async () => {
       if (downloadBtn.disabled) return;
+      const locketName = extractLocketName(linkInput.value);
+      const targetFilename = `Locketgold-${locketName}.mobileconfig`;
+
       if (server.fileUrl && server.fileUrl.trim()) {
+        try {
+          const res = await fetch(server.fileUrl);
+          if (res.ok) {
+            const blob = await res.blob();
+            const blobUrl = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = blobUrl;
+            a.download = targetFilename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(blobUrl);
+            if (typeof FuiToast !== 'undefined') {
+              FuiToast.success(`Đã tải xuống ${targetFilename}!`);
+            }
+            return;
+          }
+        } catch (_) {}
         const a = document.createElement('a');
         a.href = server.fileUrl;
-        a.download = `LocketGold-${server.name.replace(/\s+/g, '-')}.mobileconfig`;
+        a.download = targetFilename;
         a.target = '_blank';
         document.body.appendChild(a);
         a.click();
         a.remove();
         if (typeof FuiToast !== 'undefined') {
-          FuiToast.success(`Đã tải xuống hồ sơ ${server.name}!`);
+          FuiToast.success(`Đã tải xuống ${targetFilename}!`);
         }
         return;
       }
@@ -757,14 +790,14 @@
       const blobUrl = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = blobUrl;
-      a.download = `LocketGold-${server.name.replace(/\s+/g, '-')}.mobileconfig`;
+      a.download = targetFilename;
       document.body.appendChild(a);
       a.click();
       a.remove();
       URL.revokeObjectURL(blobUrl);
 
       if (typeof FuiToast !== 'undefined') {
-        FuiToast.success(`Đã tải xuống hồ sơ ${server.name}!`);
+        FuiToast.success(`Đã tải xuống ${targetFilename}!`);
       }
     });
   }

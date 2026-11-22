@@ -548,7 +548,6 @@ window.SPA_PAGES = {
                     <h3 class="font-semibold text-sm">${escHtml(srv.name)}</h3>
                     <span class="server-ping-badge text-[11px] px-2 py-0.5 rounded-full bg-sky-500/15 text-sky-400 font-mono" data-ping-url="${escHtml(srv.url)}">Checking...</span>
                   </div>
-                  <p class="text-xs text-[hsl(var(--muted-foreground))] font-mono truncate max-w-[260px]">${escHtml(srv.url)}</p>
                 </div>
               </div>
               <div class="flex items-center gap-2">
@@ -625,7 +624,6 @@ window.SPA_PAGES = {
               </div>
               <div>
                 <h3 id="selected-server-name" class="font-semibold text-sm">Máy Chủ 01</h3>
-                <p id="selected-server-url" class="text-xs text-[hsl(var(--muted-foreground))] font-mono">https://cloudflare-dns.com/dns-query</p>
               </div>
             </div>
             <span class="rounded-full bg-sky-500/15 px-2.5 py-1 text-[11px] font-medium text-sky-400">
