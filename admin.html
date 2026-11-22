@@ -716,6 +716,10 @@
         if (dnsIdx !== null) {
           config.dnsServers[dnsIdx].fileUrl = `./${repoPath}`;
           renderDns();
+        } else if (folderPrefix === 'project-video') {
+          const pIdx = parseInt(targetInputId, 10);
+          config.myProjects[pIdx].videoUrl = `./${repoPath}`;
+          renderMyProjects();
         } else if (folderPrefix === 'music') {
           const mIdx = parseInt(targetInputId, 10);
           config.music[mIdx].url = `./${repoPath}`;
@@ -886,6 +890,13 @@
               <input type="file" accept="image/*" class="hidden" onchange="uploadImageForItem(this,'myProjects',${i})" />
             </label>
           </div>
+          <div class="flex gap-2 items-center">
+            <input class="inp flex-1" placeholder="Link Video demo (YouTube hoặc MP4)" value="${(p.videoUrl || '').replace(/"/g, '&quot;')}" oninput="config.myProjects[${i}].videoUrl=this.value" />
+            <label class="rounded-xl bg-sky-500/15 border border-sky-400/40 px-3 py-2 text-xs font-bold text-sky-400 cursor-pointer shrink-0 hover:bg-sky-500/25">
+              Up Video
+              <input type="file" accept="video/*" class="hidden" onchange="uploadFileToRepo(this,'${i}','project-video')" />
+            </label>
+          </div>
         </div>
       `).join('');
     }
@@ -1001,7 +1012,7 @@
     });
     document.getElementById('btn-add-myproject').addEventListener('click', () => {
       if (!Array.isArray(config.myProjects)) config.myProjects = [];
-      config.myProjects.push({ title: 'Dự án mới', desc: 'Mô tả dự án của bạn', url: 'https://', adminUrl: '', githubUrl: '', icon: 'ri-folder-3-line', image: '' });
+      config.myProjects.push({ title: 'Dự án mới', desc: 'Mô tả dự án của bạn', url: 'https://', adminUrl: '', githubUrl: '', videoUrl: '', icon: 'ri-folder-3-line', image: '' });
       renderMyProjects();
     });
     document.getElementById('btn-apply-dns-count').addEventListener('click', () => {

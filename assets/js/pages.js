@@ -137,6 +137,30 @@ function escHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
+function renderProjectVideo(videoUrl) {
+  const url = (videoUrl || '').trim();
+  if (!url) return '';
+  const ytMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  if (ytMatch) {
+    return `
+      <div class="w-full overflow-hidden rounded-xl border border-[hsl(var(--border))] aspect-video bg-black">
+        <iframe
+          src="https://www.youtube.com/embed/${ytMatch[1]}"
+          title="Video Demo Dự Án"
+          class="w-full h-full"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+    `;
+  }
+  return `
+    <div class="w-full overflow-hidden rounded-xl border border-[hsl(var(--border))] bg-black">
+      <video src="${escHtml(url)}" controls playsinline preload="metadata" class="w-full max-h-[420px] mx-auto"></video>
+    </div>
+  `;
+}
+
 function renderCardVisual(item, defaultIcon, sizeClass) {
   if (item.image && item.image.trim()) {
     return `<img src="${escHtml(item.image)}" alt="${escHtml(item.title)}" class="${sizeClass || 'w-8 h-8'} rounded-lg object-cover shrink-0 border border-sky-400/30" />`;
@@ -443,6 +467,8 @@ window.SPA_PAGES = {
               <p class="text-sm text-[hsl(var(--muted-foreground))] mt-1 leading-relaxed">${escHtml(item.desc)}</p>
             </div>
           </div>
+
+          ${renderProjectVideo(item.videoUrl)}
 
           <div class="flex flex-col gap-2.5">
             ${item.url ? (isInternalUrl
