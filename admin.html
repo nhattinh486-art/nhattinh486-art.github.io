@@ -325,35 +325,24 @@
         </section>
 
         <!-- Tab 5: Shadowrocket URLs & Admin Codes -->
-        <section id="tab-urls" class="tab-panel hidden profile-card p-4 flex-col gap-4">
-          <h2 class="text-sm font-bold text-sky-400">Quản lý 3 URL (Shadowrocket / DNS)</h2>
-
-          <div class="flex flex-col gap-1.5">
-            <label class="text-xs font-bold text-[hsl(var(--foreground))]">1. Link .conf (hoặc up file .conf lên)</label>
-            <input id="url-conf" type="text" class="inp" />
-            <label class="inline-flex items-center gap-2 text-xs text-sky-400 cursor-pointer w-fit hover:underline">
-              <i class="ri-upload-2-line"></i>
-              <span>Chọn file .conf từ điện thoại</span>
-              <input type="file" accept=".conf,.txt" class="hidden" onchange="uploadFileToRepo(this, 'url-conf', 'conf')" />
-            </label>
+        <section id="tab-urls" class="tab-panel hidden flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <h2 class="text-sm font-bold text-sky-400">Quản lý URL (Shadowrocket / Module / DNS)</h2>
+            <button type="button" id="btn-add-url-item" class="rounded-xl bg-sky-500/15 border border-sky-400/50 px-3 py-1.5 text-xs font-bold text-sky-400 hover:bg-sky-500/25 transition-colors">
+              + Thêm URL
+            </button>
           </div>
-
-          <div class="flex flex-col gap-1.5">
-            <label class="text-xs font-bold text-[hsl(var(--foreground))]">2. Link .sgmodule (hoặc up file .sgmodule lên)</label>
-            <input id="url-sgmodule" type="text" class="inp" />
-            <label class="inline-flex items-center gap-2 text-xs text-sky-400 cursor-pointer w-fit hover:underline">
-              <i class="ri-upload-2-line"></i>
-              <span>Chọn file .sgmodule từ điện thoại</span>
-              <input type="file" accept=".sgmodule,.txt" class="hidden" onchange="uploadFileToRepo(this, 'url-sgmodule', 'sgmodule')" />
-            </label>
+          <div class="profile-card p-3 flex items-center justify-between gap-2">
+            <label for="url-count-input" class="text-xs font-semibold text-[hsl(var(--foreground))]">Số lượng URL:</label>
+            <div class="flex items-center gap-2">
+              <input id="url-count-input" type="number" min="1" max="30" class="inp !w-20 text-center" value="3" />
+              <button type="button" id="btn-apply-url-count" class="rounded-xl bg-sky-500 px-3 py-2 text-xs font-bold text-white hover:bg-sky-400 transition-colors shrink-0">
+                Áp dụng
+              </button>
+            </div>
           </div>
-
-          <div class="flex flex-col gap-1.5">
-            <label class="text-xs font-bold text-[hsl(var(--foreground))]">3. Link DNS (DoH)</label>
-            <input id="url-dns" type="text" class="inp" />
-          </div>
-
-          <div class="border-t border-[hsl(var(--border))] pt-3 flex flex-col gap-1.5">
+          <div id="urls-list" class="flex flex-col gap-3"></div>
+          <div class="profile-card p-4 flex flex-col gap-1.5">
             <label class="text-xs font-bold text-sky-400">Mã do Admin cung cấp (cách nhau bởi dấu phẩy)</label>
             <input id="admin-codes" type="text" class="inp" placeholder="NHATTINH2026, LOCKETGOLD, ADMIN" />
           </div>
@@ -780,6 +769,10 @@
           const pIdx = parseInt(targetInputId, 10);
           config.myProjects[pIdx].videoUrl = `./${repoPath}`;
           renderMyProjects();
+        } else if (folderPrefix === 'url-item') {
+          const uIdx = parseInt(targetInputId, 10);
+          config.urlItems[uIdx].url = `${SITE_ORIGIN}/${repoPath}`;
+          renderUrlItems();
         } else if (folderPrefix === 'music') {
           const mIdx = parseInt(targetInputId, 10);
           config.music[mIdx].url = `./${repoPath}`;
@@ -1036,18 +1029,50 @@
       `).join('');
     }
 
+    function ensureUrlItems() {
+      if (!Array.isArray(config.urlItems) || !config.urlItems.length) {
+        const s = config.shadowrocketUrls || {};
+        config.urlItems = [
+          { label: '1. Link .conf (Shadowrocket)', icon: 'ri-file-code-line', url: s.conf || '' },
+          { label: '2. Link .sgmodule (Module)', icon: 'ri-puzzle-line', url: s.sgmodule || '' },
+          { label: '3. Link DNS (DoH)', icon: 'ri-global-line', url: s.dns || '' }
+        ];
+      }
+    }
+
+    function renderUrlItems() {
+      ensureUrlItems();
+      const countInp = document.getElementById('url-count-input');
+      if (countInp) countInp.value = config.urlItems.length;
+      const box = document.getElementById('urls-list');
+      box.innerHTML = config.urlItems.map((u, i) => `
+        <div class="profile-card p-3.5 flex flex-col gap-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-sky-400">URL #${i + 1}</span>
+            <button type="button" onclick="config.urlItems.splice(${i},1);renderUrlItems()" class="text-xs text-rose-400 hover:underline">Xóa</button>
+          </div>
+          <input class="inp" placeholder="Tên / Nhãn (VD: 1. Link .conf)" value="${(u.label || '').replace(/"/g, '&quot;')}" oninput="config.urlItems[${i}].label=this.value" />
+          <div class="flex gap-2 items-center">
+            <input class="inp flex-1" placeholder="Đường link URL (https://...)" value="${(u.url || '').replace(/"/g, '&quot;')}" oninput="config.urlItems[${i}].url=this.value" />
+            <label class="rounded-xl bg-sky-500/15 border border-sky-400/40 px-3 py-2 text-xs font-bold text-sky-400 cursor-pointer shrink-0 hover:bg-sky-500/25">
+              Up File
+              <input type="file" accept=".conf,.sgmodule,.mobileconfig,.txt,.json" class="hidden" onchange="uploadFileToRepo(this,'${i}','url-item')" />
+            </label>
+          </div>
+        </div>
+      `).join('');
+    }
+
     function populateForm() {
       document.getElementById('bio-subtitle').value = config.bio.subtitle || '';
       document.getElementById('bio-p1').value = (config.bio.paragraphs && config.bio.paragraphs[0]) || '';
       document.getElementById('bio-p2').value = (config.bio.paragraphs && config.bio.paragraphs[1]) || '';
-      document.getElementById('url-conf').value = config.shadowrocketUrls.conf || '';
-      document.getElementById('url-sgmodule').value = config.shadowrocketUrls.sgmodule || '';
-      document.getElementById('url-dns').value = config.shadowrocketUrls.dns || '';
       document.getElementById('admin-codes').value = (config.adminCodes || []).join(', ');
       renderProjects();
       renderMyProjects();
       renderSocial();
       renderDns();
+      renderUrlItems();
       renderMusic();
     }
 
@@ -1057,9 +1082,12 @@
         document.getElementById('bio-p1').value.trim(),
         document.getElementById('bio-p2').value.trim()
       ].filter(Boolean);
-      config.shadowrocketUrls.conf = document.getElementById('url-conf').value.trim();
-      config.shadowrocketUrls.sgmodule = document.getElementById('url-sgmodule').value.trim();
-      config.shadowrocketUrls.dns = document.getElementById('url-dns').value.trim();
+      ensureUrlItems();
+      config.shadowrocketUrls = {
+        conf: (config.urlItems[0] && config.urlItems[0].url) || '',
+        sgmodule: (config.urlItems[1] && config.urlItems[1].url) || '',
+        dns: (config.urlItems[2] && config.urlItems[2].url) || ''
+      };
       config.adminCodes = document.getElementById('admin-codes').value
         .split(',')
         .map((c) => c.trim().toUpperCase())
@@ -1099,6 +1127,25 @@
       if (!Array.isArray(config.music)) config.music = [];
       config.music.push({ title: 'Bài hát mới', artist: 'Nhật Tình', url: '' });
       renderMusic();
+    });
+    document.getElementById('btn-add-url-item').addEventListener('click', () => {
+      ensureUrlItems();
+      const idx = config.urlItems.length + 1;
+      config.urlItems.push({ label: `${idx}. Link mới`, icon: 'ri-links-line', url: '' });
+      renderUrlItems();
+    });
+    document.getElementById('btn-apply-url-count').addEventListener('click', () => {
+      ensureUrlItems();
+      const target = Math.max(1, Math.min(30, parseInt(document.getElementById('url-count-input').value, 10) || 1));
+      while (config.urlItems.length < target) {
+        const idx = config.urlItems.length + 1;
+        config.urlItems.push({ label: `${idx}. Link mới`, icon: 'ri-links-line', url: '' });
+      }
+      if (config.urlItems.length > target) {
+        config.urlItems = config.urlItems.slice(0, target);
+      }
+      renderUrlItems();
+      showAdminToast(`Đã chỉnh số lượng thành ${target} URL!`, 'success');
     });
 
     document.getElementById('btn-preview-local').addEventListener('click', () => {

@@ -738,6 +738,13 @@ window.SPA_PAGES = {
     render: () => {
       const cfg = window.SITE_CONFIG || window.DEFAULT_SITE_CONFIG;
       const urls = cfg.shadowrocketUrls || window.DEFAULT_SITE_CONFIG.shadowrocketUrls;
+      const urlItems = (Array.isArray(cfg.urlItems) && cfg.urlItems.length)
+        ? cfg.urlItems
+        : [
+            { label: '1. Link .conf (Shadowrocket)', icon: 'ri-file-code-line', url: urls.conf },
+            { label: '2. Link .sgmodule (Module)', icon: 'ri-puzzle-line', url: urls.sgmodule },
+            { label: '3. Link DNS (DoH)', icon: 'ri-global-line', url: urls.dns }
+          ];
 
       return `
       <section class="flex flex-col gap-y-5 md:flex-row md:gap-y-0">
@@ -759,38 +766,22 @@ window.SPA_PAGES = {
           <h2 class="text-xl font-semibold">Danh Sách URL</h2>
         </div>
         <div class="flex-1 flex flex-col gap-3">
-          ${[
-            {
-              label: '1. Link .conf (Shadowrocket)',
-              icon: 'ri-file-code-line',
-              url: urls.conf
-            },
-            {
-              label: '2. Link .sgmodule (Module)',
-              icon: 'ri-puzzle-line',
-              url: urls.sgmodule
-            },
-            {
-              label: '3. Link DNS (DoH)',
-              icon: 'ri-global-line',
-              url: urls.dns
-            }
-          ].map((item) => `
+          ${urlItems.map((item, idx) => `
             <div class="profile-card p-4 flex flex-col gap-2.5">
               <div class="flex items-center gap-2 text-sm font-semibold text-sky-400">
-                <i class="${item.icon} text-lg"></i>
-                <span>${item.label}</span>
+                <i class="${escHtml(item.icon || 'ri-links-line')} text-lg"></i>
+                <span>${escHtml(item.label || `Link #${idx + 1}`)}</span>
               </div>
               <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                 <input
                   type="text"
                   readonly
-                  value="${escHtml(item.url)}"
+                  value="${escHtml(item.url || '')}"
                   class="flex-1 rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--background))/0.7] px-3 py-2 text-xs font-mono text-[hsl(var(--foreground))] outline-none"
                 />
                 <button
                   type="button"
-                  data-ws-copy="${escHtml(item.url)}"
+                  data-ws-copy="${escHtml(item.url || '')}"
                   class="rounded-xl bg-sky-500/15 border border-sky-500/40 px-4 py-2 text-xs font-semibold text-sky-400 hover:bg-sky-500/25 transition-colors shrink-0"
                 >
                   <i class="ri-file-copy-line mr-1"></i>Copy Link
